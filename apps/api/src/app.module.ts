@@ -3,6 +3,12 @@ import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { DatabaseModule } from './database/database.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { AssetsModule } from './assets/assets.module';
+import { PricingModule } from './pricing/pricing.module';
+import { PositionsModule } from './positions/positions.module';
 import appConfig from './config/app.config';
 import mongoConfig from './config/mongo.config';
 
@@ -27,6 +33,12 @@ import mongoConfig from './config/mongo.config';
         };
       },
     }),
+    DatabaseModule,
+    UsersModule,
+    AuthModule,
+    AssetsModule,
+    PricingModule,
+    PositionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
