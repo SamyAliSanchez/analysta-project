@@ -7,9 +7,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  const port = configService.get<number>('app.apiPort', { infer: true }) ?? 3000;
+  const port =
+    configService.get<number>('app.apiPort', { infer: true }) ?? 3000;
   const frontendOrigin =
-    configService.get<string>('app.frontendOrigin', { infer: true }) ?? 'http://localhost:5173';
+    configService.get<string>('app.frontendOrigin', { infer: true }) ??
+    'http://localhost:5173';
 
   app.enableCors({
     origin: frontendOrigin,

@@ -20,28 +20,76 @@ El candidato debe construir una pequeña plataforma de trading donde los usuario
 ## ⚙️ Puesta en marcha del monorepo
 
 ### Requisitos previos
+
 - Node.js 20+
 - pnpm 9.x
-- MongoDB accesible en `mongodb://localhost:27017/analysta` (puede ser Docker)
+- MongoDB accesible en `mongodb://localhost:27017/analysta` (con Docker)
+- Docker (para MongoDB)
 
 ### Setup inicial
+
 1. Instalar dependencias
+
    ```bash
    pnpm install
    ```
+
 2. Configurar variables de entorno
+
    ```bash
    cp .env.example .env
    cp apps/api/.env.example apps/api/.env
    cp apps/web/.env.example apps/web/.env
    ```
-3. Levantar backend y frontend en paralelo
+
+3. Levantar MongoDB
+
+```bash
+# Docker
+
+No necesitas instalar MongoDB en tu sistema.
+```
+
+- `docker-compose up -d mongodb`
+
+Esto levantará MongoDB en un contenedor accesible desde:
+
+- `mongodb://localhost:27017/analysta`
+
+````
+
+4. Levantar backend y frontend en paralelo
+
    ```bash
    pnpm dev
+````
+
+También puedes ejecutarlos por separado con `pnpm dev:api` y `pnpm dev:web`.
+
+5. Probar endpoints de autenticación
+
+   Una vez que la API esté corriendo, puedes probar los endpoints:
+
+   ```bash
+   ./scripts/test-auth.sh
    ```
-   También puedes ejecutarlos por separado con `pnpm dev:api` y `pnpm dev:web`.
+
+   O manualmente con curl:
+
+   ```bash
+   # Registrar usuario
+   curl -X POST http://localhost:3000/auth/register \
+     -H "Content-Type: application/json" \
+     -d '{"email": "test@example.com", "password": "test123", "displayName": "Test User"}'
+
+   # Login
+   curl -X POST http://localhost:3000/auth/login \
+     -H "Content-Type: application/json" \
+     -d '{"email": "test@example.com", "password": "test123"}'
+   ```
 
 ### Scripts útiles
+
 - `pnpm build` – compila ambos proyectos.
 - `pnpm test` – ejecuta las pruebas disponibles en cada paquete.
 - `pnpm seed` – (pendiente) poblará la base de datos con los activos iniciales.
