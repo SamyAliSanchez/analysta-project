@@ -17,6 +17,35 @@ La prueba se divide en:
 
 El candidato debe construir una pequeña plataforma de trading donde los usuarios pueden registrar, analizar y operar con activos financieros ficticios, propios de un mercado "intergaláctico".
 
+## ⚙️ Puesta en marcha del monorepo
+
+### Requisitos previos
+- Node.js 20+
+- pnpm 9.x
+- MongoDB accesible en `mongodb://localhost:27017/analysta` (puede ser Docker)
+
+### Setup inicial
+1. Instalar dependencias
+   ```bash
+   pnpm install
+   ```
+2. Configurar variables de entorno
+   ```bash
+   cp .env.example .env
+   cp apps/api/.env.example apps/api/.env
+   cp apps/web/.env.example apps/web/.env
+   ```
+3. Levantar backend y frontend en paralelo
+   ```bash
+   pnpm dev
+   ```
+   También puedes ejecutarlos por separado con `pnpm dev:api` y `pnpm dev:web`.
+
+### Scripts útiles
+- `pnpm build` – compila ambos proyectos.
+- `pnpm test` – ejecuta las pruebas disponibles en cada paquete.
+- `pnpm seed` – (pendiente) poblará la base de datos con los activos iniciales.
+
 #### Activos disponibles:
 
 - "Quantum Credit"

@@ -1,8 +1,16 @@
-# Nestjs specific
+# Build outputs
 /dist
-/node_modules
 /build
 /tmp
+apps/*/dist
+apps/*/build
+coverage
+.turbo
+.eslintcache
+
+# Dependencies
+/node_modules
+apps/*/node_modules
 
 # Logs
 logs
@@ -18,7 +26,17 @@ lerna-debug.log*
 .env.development
 .env.test
 .env.production
+.env.local
+apps/*/.env
+apps/*/.env.local
+apps/*/.env.development
+apps/*/.env.production
 
 # temp directory
 .temp
 .tmp
+
+# Editors / OS
+.DS_Store
+.idea
+.vscode
