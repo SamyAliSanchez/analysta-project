@@ -92,6 +92,15 @@ curl -X POST http://localhost:3000/auth/login \
 - `pnpm test` – ejecuta las pruebas disponibles en cada paquete.
 - `pnpm seed` – (pendiente) poblará la base de datos con los activos iniciales.
 
+### Endpoints disponibles (API)
+
+- `POST /auth/register` — Crea un usuario nuevo.
+- `POST /auth/login` — Devuelve JWT + usuario.
+- `GET /assets` — Lista activos (`?category=`, `?search=` opcionales).
+- `GET /assets/:id` — Obtiene un activo por ID.
+- `GET /pricing` — Devuelve el último precio simulado de cada activo.
+- `GET /pricing/:symbolOrId` — Devuelve el precio de un activo (por símbolo o ID).
+
 #### Activos disponibles:
 
 - "Quantum Credit"
