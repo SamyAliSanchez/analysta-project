@@ -56,13 +56,11 @@ Esto levantará MongoDB en un contenedor accesible desde:
 
 - `mongodb://localhost:27017/analysta`
 
-````
-
 4. Levantar backend y frontend en paralelo
 
    ```bash
    pnpm dev
-````
+   ```
 
 También puedes ejecutarlos por separado con `pnpm dev:api` y `pnpm dev:web`.
 
@@ -74,19 +72,19 @@ También puedes ejecutarlos por separado con `pnpm dev:api` y `pnpm dev:web`.
    ./scripts/test-auth.sh
    ```
 
-   O manualmente con curl:
+O manualmente con curl:
 
-   ```bash
-   # Registrar usuario
-   curl -X POST http://localhost:3000/auth/register \
-     -H "Content-Type: application/json" \
-     -d '{"email": "test@example.com", "password": "test123", "displayName": "Test User"}'
+```bash
+# Registrar usuario
+curl -X POST http://localhost:3000/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test@example.com", "password": "test123", "displayName": "Test User"}'
 
-   # Login
-   curl -X POST http://localhost:3000/auth/login \
-     -H "Content-Type: application/json" \
-     -d '{"email": "test@example.com", "password": "test123"}'
-   ```
+# Login
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test@example.com", "password": "test123"}'
+```
 
 ### Scripts útiles
 
@@ -200,3 +198,11 @@ Valoramos:
 - Simulación de precios
 - Mongo bien modelado
 - Testing (bonus)
+
+```
+
+```
+
+```
+
+```
