@@ -1,3 +1,7 @@
+import { IsNumber, Min } from 'class-validator';
+
 export class ClosePositionDto {
-  closePrice!: number
+  @IsNumber()
+  @Min(0)
+  closePrice!: number;
 }
