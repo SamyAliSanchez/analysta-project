@@ -5,6 +5,8 @@ import { DashboardLayout } from "./components/layout/DashboardLayout";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { RegisterPage } from "./pages/auth/RegisterPage";
 import { DashboardPage } from "./pages/DashboardPage";
+import { AssetDetailPage } from "./pages/AssetDetailPage";
+import { PortfolioPage } from "./pages/PortfolioPage";
 
 const HomeRedirect = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -26,6 +28,17 @@ function App() {
           }
         >
           <Route index element={<DashboardPage />} />
+          <Route path="portfolio" element={<PortfolioPage />} />
+        </Route>
+        <Route
+          path="/assets/:id"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AssetDetailPage />} />
         </Route>
         <Route path="/" element={<HomeRedirect />} />
       </Routes>

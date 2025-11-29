@@ -19,7 +19,13 @@ export const DashboardLayout = () => {
           <Link to="/dashboard" className="text-xl font-semibold text-white">
             🚀 Trading Desk
           </Link>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
+            <Link
+              to="/dashboard/portfolio"
+              className="text-sm text-slate-300 transition hover:text-white"
+            >
+              Mi Cartera
+            </Link>
             <span className="text-sm text-slate-300">{user?.displayName}</span>
             <button
               onClick={handleLogout}
@@ -37,4 +43,3 @@ export const DashboardLayout = () => {
     </div>
   );
 };
-
