@@ -37,6 +37,12 @@ export const useAuthStore = create<AuthState>()(
         token: state.token,
         isAuthenticated: state.isAuthenticated,
       }),
+      onRehydrateStorage: () => (state) => {
+        // Sincronizar token del store con localStorage al rehidratar
+        if (state?.token) {
+          localStorage.setItem("accessToken", state.token);
+        }
+      },
     }
   )
 );

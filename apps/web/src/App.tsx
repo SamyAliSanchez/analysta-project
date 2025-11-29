@@ -1,12 +1,35 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useAuthStore } from "./lib/stores/auth.store";
+import { ProtectedRoute } from "./components/common/ProtectedRoute";
+import { DashboardLayout } from "./components/layout/DashboardLayout";
+import { LoginPage } from "./pages/auth/LoginPage";
+import { RegisterPage } from "./pages/auth/RegisterPage";
+import { DashboardPage } from "./pages/DashboardPage";
+
+const HomeRedirect = () => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  return <Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />;
+};
+
 function App() {
   return (
-    <main className="app-shell">
-      <div className="app-shell__inner">
-        <p className="eyebrow">Analysta // Mercado Intergaláctico</p>
-        <h1>Trading Desk de Activos Exóticos</h1>
-        <p className="lede">UI en construcción.</p>
-      </div>
-    </main>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<DashboardPage />} />
+        </Route>
+        <Route path="/" element={<HomeRedirect />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
