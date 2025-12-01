@@ -65,41 +65,11 @@ export const OpenPositionModal = ({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-300">
-              Tipo de Operación
-            </label>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setSide("buy")}
-                className={`flex-1 rounded-lg px-4 py-3 font-semibold transition ${
-                  side === "buy"
-                    ? "bg-green-500/20 text-green-400 border border-green-500/50"
-                    : "bg-white/5 text-slate-400 border border-white/10"
-                }`}
-              >
-                Comprar
-              </button>
-              <button
-                type="button"
-                onClick={() => setSide("sell")}
-                className={`flex-1 rounded-lg px-4 py-3 font-semibold transition ${
-                  side === "sell"
-                    ? "bg-red-500/20 text-red-400 border border-red-500/50"
-                    : "bg-white/5 text-slate-400 border border-white/10"
-                }`}
-              >
-                Vender
-              </button>
-            </div>
-          </div>
-
-          <div>
             <label
               htmlFor="quantity"
               className="mb-2 block text-sm font-medium text-slate-300"
             >
-              Cantidad
+              Cantidad a comprar
             </label>
             <input
               id="quantity"

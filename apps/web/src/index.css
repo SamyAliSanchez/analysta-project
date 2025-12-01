@@ -5,7 +5,6 @@
 @tailwind utilities;
 
 :root {
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   color: #f8fafc;
   background-color: #030014;
   text-rendering: optimizeLegibility;

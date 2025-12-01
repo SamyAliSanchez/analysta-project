@@ -29,8 +29,8 @@ export const RegisterPage = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-space-900 via-space-950 to-black px-4">
-      <div className="w-full max-w-md">
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-card backdrop-blur-lg">
+      <div className="max-w-md">
+        <div className="rounded-3xl bg-white/5 p-8 shadow-card backdrop-blur-lg">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-semibold text-white">Crear Cuenta</h1>
             <p className="mt-2 text-sm text-slate-400">
@@ -104,7 +104,7 @@ export const RegisterPage = () => {
             <button
               type="submit"
               disabled={registerMutation.isPending}
-              className="w-full rounded-lg bg-space-neon px-4 py-3 font-semibold text-space-900 transition hover:bg-space-neon/90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-lg bg-space-neon px-4 py-3 font-semibold text-space-900 transition hover:bg-space-neon/90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {registerMutation.isPending
                 ? "Creando cuenta..."

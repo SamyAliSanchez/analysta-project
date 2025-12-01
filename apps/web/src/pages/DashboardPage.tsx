@@ -21,14 +21,6 @@ export const DashboardPage = () => {
             Bienvenido a tu Trading Desk Intergaláctico
           </p>
         </div>
-        {summary && (
-          <Link
-            to="/dashboard/portfolio"
-            className="rounded-lg border border-white/20 px-6 py-3 text-sm font-semibold text-slate-300 transition hover:bg-white/10"
-          >
-            Ver Cartera
-          </Link>
-        )}
       </div>
 
       {summary && (

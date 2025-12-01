@@ -96,19 +96,33 @@ export class PricingService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async generateNextPrices() {
+    await this.cleanupOldPriceTicks();
+
     const assets = await this.assetsService.findAll();
     await Promise.all(
       assets.map(async (asset) => {
         const key = asset._id.toString();
-        const previous =
+        let previous =
           this.latestPrices.get(key) ??
           (await this.createSnapshotFromLastTick(asset)) ??
           (await this.createInitialSnapshot(asset));
 
-        const multiplier =
-          1 + (Math.random() * 2 * asset.volatility - asset.volatility);
+        if (previous.price < 10) {
+          previous = await this.createInitialSnapshot(asset);
+        }
+
+        const tickVolatility = asset.volatility * 0.05;
+        const change = (Math.random() * 2 - 1) * tickVolatility;
+        const multiplier = 1 + change;
         const rawPrice = previous.price * multiplier;
-        const price = Number(Math.max(rawPrice, 0.01).toFixed(2));
+        const minPriceForTick = previous.price * 0.97;
+        const absoluteMinPrice = Math.max(10.0, previous.price * 0.1);
+        const price = Number(
+          Math.max(
+            rawPrice,
+            Math.max(minPriceForTick, absoluteMinPrice),
+          ).toFixed(2),
+        );
         const timestamp = new Date();
 
         const snapshot: PriceSnapshot = {
@@ -141,6 +155,10 @@ export class PricingService implements OnModuleInit, OnModuleDestroy {
       return null;
     }
 
+    if (lastTick.price < 10) {
+      return null;
+    }
+
     return {
       assetId: asset._id.toString(),
       symbol: asset.symbol,
@@ -153,9 +171,15 @@ export class PricingService implements OnModuleInit, OnModuleDestroy {
   private async createInitialSnapshot(
     asset: AssetDocument,
   ): Promise<PriceSnapshot> {
-    const price = Number(
-      (100 * (1 + Math.random() * asset.volatility)).toFixed(2),
-    );
+    const basePrices: Record<string, number> = {
+      QCRD: 150,
+      PHBN: 100,
+      DRKM: 200,
+      NBLX: 120,
+    };
+
+    const basePrice = basePrices[asset.symbol] || 100;
+    const price = Number((basePrice * (0.9 + Math.random() * 0.2)).toFixed(2));
     const timestamp = new Date();
 
     await this.priceTickModel.create({
@@ -184,11 +208,25 @@ export class PricingService implements OnModuleInit, OnModuleDestroy {
     if (isValidObjectId(identifier)) {
       try {
         return await this.assetsService.findById(identifier);
-      } catch (error) {
-        // fall through to throw NotFound below
-      }
+      } catch (error) {}
     }
 
     throw new NotFoundException(`Asset ${identifier} not found`);
+  }
+
+  private async cleanupOldPriceTicks(): Promise<void> {
+    try {
+      const totalTicks = await this.priceTickModel.countDocuments().exec();
+
+      if (totalTicks >= 2000) {
+        this.logger.log(
+          `Cleaning up price ticks: ${totalTicks} records found, deleting all...`,
+        );
+        await this.priceTickModel.deleteMany({}).exec();
+        this.logger.log('All price ticks deleted. Starting fresh...');
+      }
+    } catch (error) {
+      this.logger.error('Error cleaning up price ticks:', error);
+    }
   }
 }
