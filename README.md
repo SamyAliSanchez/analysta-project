@@ -72,40 +72,6 @@ También puedes ejecutarlos por separado con `pnpm dev:api` y `pnpm dev:web`.
    ./scripts/test-auth.sh
    ```
 
-   ## 📝 Cómo Ejecutar Tests
-
-```bash
-# Ejecutar todos los tests
-cd apps/api
-
-pnpm test
-```
-
-## 🔍 Archivos de Test
-
-**Tests completos (con lógica de negocio):**
-
-- ✅ `apps/api/src/positions/positions.service.spec.ts` - 10 tests
-- ✅ `apps/api/src/auth/auth.service.spec.ts` - 5 tests
-- ✅ `apps/api/src/pricing/pricing.service.spec.ts` - 6 tests
-
-**Tests básicos (verificación de instanciación):**
-
-- ✅ `apps/api/src/positions/positions.controller.spec.ts`
-- ✅ `apps/api/src/auth/auth.controller.spec.ts`
-- ✅ `apps/api/src/assets/assets.controller.spec.ts`
-- ✅ `apps/api/src/assets/assets.service.spec.ts`
-- ✅ `apps/api/src/users/users.service.spec.ts`
-- ✅ `apps/api/src/app.controller.spec.ts`
-
-## 💡 Notas
-
-Los tests son **básicos pero funcionales**, cubriendo:
-
-- Funcionalidad core del sistema
-- Casos de éxito y error
-- Validación de lógica de negocio crítica (cálculo de PnL, simulación de precios)
-
 O manualmente con curl:
 
 ```bash
@@ -141,6 +107,38 @@ curl -X POST http://localhost:3000/auth/login \
 - "Photon Bond"
 - "Dark Matter Future"
 - "Nebula ETF"
+
+## 📝 Cómo Ejecutar Tests
+
+```bash
+# Ejecutar todos los tests
+cd apps/api
+
+pnpm test
+```
+
+## 🔍 Archivos de Test
+
+**Tests completos (con lógica de negocio):**
+
+- ✅ `apps/api/src/positions/positions.service.spec.ts` - 10 tests
+- ✅ `apps/api/src/auth/auth.service.spec.ts` - 5 tests
+- ✅ `apps/api/src/pricing/pricing.service.spec.ts` - 6 tests
+
+**Tests básicos (verificación de instanciación):**
+
+- ✅ `apps/api/src/positions/positions.controller.spec.ts`
+- ✅ `apps/api/src/auth/auth.controller.spec.ts`
+- ✅ `apps/api/src/assets/assets.controller.spec.ts`
+- ✅ `apps/api/src/assets/assets.service.spec.ts`
+- ✅ `apps/api/src/users/users.service.spec.ts`
+- ✅ `apps/api/src/app.controller.spec.ts`
+
+Los tests son **básicos pero funcionales**, cubriendo:
+
+- Funcionalidad core del sistema
+- Casos de éxito y error
+- Validación de lógica de negocio crítica (cálculo de PnL, simulación de precios)
 
 ### 🧬 Modelado de Datos
 
