@@ -219,11 +219,6 @@ Debe incluir:
 - PnL total del usuario
 - PnL por activo
 - Evolución del PnL (si quiere hacer un gráfico, opcional)
-
-### ⭐ Criterios de Evaluación
-
-Valoramos:
-
 - Arquitectura sólida
 - Buen diseño de API
 - Buen uso de React Query / Zustand / Redux Toolkit
@@ -231,4 +226,4 @@ Valoramos:
 - Validaciones
 - Simulación de precios
 - Mongo bien modelado
-- Testing (bonus)
+- Testing 
