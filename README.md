@@ -2,20 +2,13 @@
 
 **Tema:** "Mercado Intergaláctico de Activos Exóticos"
 
-## Estructura de la Prueba
 
-La prueba se divide en:
+**Stack:** React + NestJS + MongoDB
 
-- **Parte A** — Take-home (3–6 h)
-- **Parte B** — Pair programming (60–90 min - conversación técnica y resolución de problemas en vivo a agendar tras entregar la Parte A)
-
-**Stack obligatorio:** React + NestJS + MongoDB
-
-## 🅐 — Take-Home
 
 ### 🎯 Proyecto: "Trading Desk de Activos Exóticos"
 
-El candidato debe construir una pequeña plataforma de trading donde los usuarios pueden registrar, analizar y operar con activos financieros ficticios, propios de un mercado "intergaláctico".
+Construir una pequeña plataforma de trading donde los usuarios pueden registrar, analizar y operar con activos financieros ficticios, propios de un mercado "intergaláctico".
 
 ## ⚙️ Puesta en marcha del monorepo
 
