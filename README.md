@@ -1,4 +1,4 @@
-# 🧪 Prueba Técnica – Full Stack
+# 🧪 Full Stack Project
 
 **Tema:** "Mercado Intergaláctico de Activos Exóticos"
 
