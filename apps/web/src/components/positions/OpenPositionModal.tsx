@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useOpenPosition } from "../../hooks/positions/use-positions";
 import { usePriceBySymbolOrId } from "../../hooks/pricing/use-pricing";
 import type { Asset } from "../../lib/api/assets.api";
@@ -15,22 +15,40 @@ export const OpenPositionModal = ({
   onClose,
 }: OpenPositionModalProps) => {
   const [side, setSide] = useState<"buy" | "sell">("buy");
-  const [quantity, setQuantity] = useState("");
+  const [quantityBuy, setQuantityBuy] = useState(0);
+  const [quantitySell, setQuantitySell] = useState(0);
   const openPositionMutation = useOpenPosition();
   const { data: price } = usePriceBySymbolOrId(asset._id);
+
+  useEffect(() => {
+    if (quantityBuy > 0) {
+      setSide("buy");
+    }
+  }, [quantityBuy]);
+
+  useEffect(() => {
+    if (quantitySell > 0) {
+      setSide("sell");
+    }
+  }, [quantitySell]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!price) return;
 
+    const quantity = side === "buy" ? quantityBuy : quantitySell;
+    if (!quantity || quantity <= 0) return;
+
     try {
       await openPositionMutation.mutateAsync({
         assetId: asset._id,
         side,
-        quantity: parseFloat(quantity),
+        quantity: quantity,
       });
       onClose();
-      setQuantity("");
+      setQuantityBuy(0);
+      setQuantitySell(0);
+      setSide("buy");
     } catch (error) {
       console.error("Error opening position:", error);
     }
@@ -38,7 +56,8 @@ export const OpenPositionModal = ({
 
   if (!isOpen) return null;
 
-  const totalValue = price && quantity ? price.price * parseFloat(quantity) : 0;
+  const totalValueBuy = price && quantityBuy ? price.price * quantityBuy : 0;
+  const totalValueSell = price && quantitySell ? price.price * quantitySell : 0;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
@@ -62,58 +81,118 @@ export const OpenPositionModal = ({
             </p>
           )}
         </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label
-              htmlFor="quantity"
-              className="mb-2 block text-sm font-medium text-slate-300"
-            >
-              Cantidad a comprar
-            </label>
-            <input
-              id="quantity"
-              type="number"
-              step="0.01"
-              min="0.01"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              required
-              className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 focus:border-space-neon focus:outline-none focus:ring-2 focus:ring-space-neon/50"
-              placeholder="0.00"
-            />
-          </div>
-
-          {quantity && price && (
-            <div className="rounded-lg border border-white/10 bg-white/5 p-4">
-              <div className="flex justify-between text-sm text-slate-400">
-                <span>Valor Total</span>
-                <span className="text-lg font-semibold text-white">
-                  ${totalValue.toFixed(2)}
-                </span>
-              </div>
+        <div className="flex gap-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label
+                htmlFor="quantityBuy"
+                className="mb-2 block text-sm font-medium text-slate-300"
+              >
+                Cantidad a comprar
+              </label>
+              <input
+                id="quantityBuy"
+                type="number"
+                step="0.01"
+                min="0.01"
+                value={quantityBuy}
+                onChange={(e) => setQuantityBuy(Number(e.target.value))}
+                required
+                className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 focus:border-space-neon focus:outline-none focus:ring-2 focus:ring-space-neon/50"
+                placeholder="0.00"
+              />
             </div>
-          )}
 
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 rounded-lg border border-white/20 px-4 py-3 text-slate-300 transition hover:bg-white/10"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              disabled={openPositionMutation.isPending || !price || !quantity}
-              className="flex-1 rounded-lg bg-space-neon px-4 py-3 font-semibold text-space-900 transition hover:bg-space-neon/90 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {openPositionMutation.isPending
-                ? "Abriendo..."
-                : "Abrir Posición"}
-            </button>
-          </div>
-        </form>
+            {quantityBuy > 0 && price && (
+              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                <div className="flex justify-between text-sm text-slate-400">
+                  <span>Valor Total</span>
+                  <span className="text-lg font-semibold text-white">
+                    ${totalValueBuy.toFixed(2)}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex-1 rounded-lg border border-white/20 px-4 py-3 text-slate-300 transition hover:bg-white/10"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                disabled={
+                  openPositionMutation.isPending ||
+                  !price ||
+                  !quantityBuy ||
+                  quantityBuy <= 0 ||
+                  side !== "buy"
+                }
+                className="flex-1 rounded-lg bg-green-600 px-4 py-3 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {openPositionMutation.isPending ? "Comprando..." : "Comprar"}
+              </button>
+            </div>
+          </form>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label
+                htmlFor="quantitySell"
+                className="mb-2 block text-sm font-medium text-slate-300"
+              >
+                Cantidad a vender
+              </label>
+              <input
+                id="quantitySell"
+                type="number"
+                step="0.01"
+                min="0.01"
+                value={quantitySell || ""}
+                onChange={(e) => setQuantitySell(Number(e.target.value))}
+                required
+                className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 focus:border-space-neon focus:outline-none focus:ring-2 focus:ring-space-neon/50"
+                placeholder="0.00"
+              />
+            </div>
+
+            {quantitySell > 0 && price && (
+              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                <div className="flex justify-between text-sm text-slate-400">
+                  <span>Valor Total</span>
+                  <span className="text-lg font-semibold text-white">
+                    ${totalValueSell.toFixed(2)}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex-1 rounded-lg border border-white/20 px-4 py-3 text-slate-300 transition hover:bg-white/10"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                disabled={
+                  openPositionMutation.isPending ||
+                  !price ||
+                  !quantitySell ||
+                  quantitySell <= 0 ||
+                  side !== "sell"
+                }
+                className="flex-1 rounded-lg bg-red-600 px-4 py-3 font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {openPositionMutation.isPending ? "Vendiendo..." : "Vender"}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

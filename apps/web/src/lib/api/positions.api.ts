@@ -48,10 +48,10 @@ export const positionsApi = {
     return response.data;
   },
 
-  getById: async (id: string): Promise<Position> => {
-    const response = await apiClient.get<Position>(`/positions/${id}`);
-    return response.data;
-  },
+  getById: (id: string): Promise<Position> =>
+    apiClient
+      .get<Position>(`/positions/${id}`)
+      .then((response) => response.data),
 
   open: async (data: OpenPositionDto): Promise<Position> => {
     const response = await apiClient.post<Position>("/positions", data);
