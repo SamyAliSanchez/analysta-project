@@ -60,29 +60,30 @@ export const OpenPositionModal = ({
   const totalValueSell = price && quantitySell ? price.price * quantitySell : 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-      <div className="w-full max-w-md rounded-3xl border border-white/10 bg-space-900 p-6 shadow-card">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fadeIn">
+      <div className="w-full max-w-lg glass-card rounded-3xl p-6 shadow-card animate-scaleIn">
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-semibold text-white">Abrir Posición</h2>
+          <h2 className="text-2xl font-bold text-white">Abrir Posición</h2>
           <button
             onClick={onClose}
-            className="rounded-lg p-2 text-slate-400 hover:bg-white/10 hover:text-white"
+            className="rounded-lg p-2 text-slate-400 transition hover:bg-white/10 hover:text-white"
           >
             ✕
           </button>
         </div>
 
-        <div className="mb-6 rounded-2xl border border-white/10 bg-black/30 p-4">
+        <div className="mb-6 relative overflow-hidden rounded-2xl border border-space-neon/20 bg-gradient-to-br from-space-neon/10 to-transparent p-4">
+          <div className="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full bg-space-neon/10 blur-2xl" />
           <p className="text-sm text-slate-400">{asset.name}</p>
-          <p className="text-lg font-semibold text-white">{asset.symbol}</p>
+          <p className="font-mono text-lg font-semibold text-white">{asset.symbol}</p>
           {price && (
-            <p className="mt-1 text-2xl font-bold text-space-neon">
+            <p className="mt-1 font-mono text-2xl font-bold text-space-neon">
               ${price.price.toFixed(2)}
             </p>
           )}
         </div>
         <div className="flex gap-4">
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="flex-1 space-y-4">
             <div>
               <label
                 htmlFor="quantityBuy"
@@ -98,16 +99,16 @@ export const OpenPositionModal = ({
                 value={quantityBuy}
                 onChange={(e) => setQuantityBuy(Number(e.target.value))}
                 required
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 focus:border-space-neon focus:outline-none focus:ring-2 focus:ring-space-neon/50"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 transition focus:border-green-500/50 focus:bg-white/[0.07] focus:outline-none focus:ring-2 focus:ring-green-500/20"
                 placeholder="0.00"
               />
             </div>
 
             {quantityBuy > 0 && price && (
-              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+              <div className="rounded-xl border border-white/10 bg-white/5 p-4">
                 <div className="flex justify-between text-sm text-slate-400">
                   <span>Valor Total</span>
-                  <span className="text-lg font-semibold text-white">
+                  <span className="font-mono text-lg font-semibold text-white">
                     ${totalValueBuy.toFixed(2)}
                   </span>
                 </div>
@@ -118,7 +119,7 @@ export const OpenPositionModal = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 rounded-lg border border-white/20 px-4 py-3 text-slate-300 transition hover:bg-white/10"
+                className="flex-1 rounded-xl border border-white/10 px-4 py-3 text-slate-300 transition hover:bg-white/10"
               >
                 Cancelar
               </button>
@@ -131,13 +132,13 @@ export const OpenPositionModal = ({
                   quantityBuy <= 0 ||
                   side !== "buy"
                 }
-                className="flex-1 rounded-lg bg-green-600 px-4 py-3 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex-1 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 px-4 py-3 font-semibold text-white shadow-sm transition hover:from-green-600 hover:to-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {openPositionMutation.isPending ? "Comprando..." : "Comprar"}
               </button>
             </div>
           </form>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="flex-1 space-y-4">
             <div>
               <label
                 htmlFor="quantitySell"
@@ -153,16 +154,16 @@ export const OpenPositionModal = ({
                 value={quantitySell || ""}
                 onChange={(e) => setQuantitySell(Number(e.target.value))}
                 required
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 focus:border-space-neon focus:outline-none focus:ring-2 focus:ring-space-neon/50"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-slate-500 transition focus:border-red-500/50 focus:bg-white/[0.07] focus:outline-none focus:ring-2 focus:ring-red-500/20"
                 placeholder="0.00"
               />
             </div>
 
             {quantitySell > 0 && price && (
-              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+              <div className="rounded-xl border border-white/10 bg-white/5 p-4">
                 <div className="flex justify-between text-sm text-slate-400">
                   <span>Valor Total</span>
-                  <span className="text-lg font-semibold text-white">
+                  <span className="font-mono text-lg font-semibold text-white">
                     ${totalValueSell.toFixed(2)}
                   </span>
                 </div>
@@ -173,7 +174,7 @@ export const OpenPositionModal = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 rounded-lg border border-white/20 px-4 py-3 text-slate-300 transition hover:bg-white/10"
+                className="flex-1 rounded-xl border border-white/10 px-4 py-3 text-slate-300 transition hover:bg-white/10"
               >
                 Cancelar
               </button>
@@ -186,7 +187,7 @@ export const OpenPositionModal = ({
                   quantitySell <= 0 ||
                   side !== "sell"
                 }
-                className="flex-1 rounded-lg bg-red-600 px-4 py-3 font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex-1 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 px-4 py-3 font-semibold text-white shadow-sm transition hover:from-red-600 hover:to-rose-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {openPositionMutation.isPending ? "Vendiendo..." : "Vender"}
               </button>
