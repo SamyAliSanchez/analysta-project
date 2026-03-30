@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.ts";
 
 :root {
   color: #f8fafc;
@@ -15,8 +14,123 @@ body {
   margin: 0;
   min-height: 100vh;
   background-color: #030014;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
 }
 
 #root {
   min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(94, 241, 255, 0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(94, 241, 255, 0.4);
+}
+
+/* Animated star-field background */
+.starfield {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.starfield::before,
+.starfield::after {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, rgba(94,241,255,0.4), transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(255,124,194,0.3), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(94,241,255,0.3), transparent),
+    radial-gradient(2px 2px at 160px 30px, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 200px 60px, rgba(255,124,194,0.2), transparent),
+    radial-gradient(1px 1px at 250px 20px, rgba(94,241,255,0.5), transparent),
+    radial-gradient(2px 2px at 300px 90px, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 350px 50px, rgba(94,241,255,0.2), transparent),
+    radial-gradient(1px 1px at 400px 70px, rgba(255,124,194,0.4), transparent);
+  background-size: 420px 100px;
+  animation: starScroll 60s linear infinite;
+}
+.starfield::after {
+  background-image:
+    radial-gradient(1px 1px at 50px 50px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 100px 20px, rgba(94,241,255,0.2), transparent),
+    radial-gradient(1px 1px at 150px 80px, rgba(255,124,194,0.3), transparent),
+    radial-gradient(1px 1px at 220px 30px, rgba(255,255,255,0.4), transparent),
+    radial-gradient(2px 2px at 280px 60px, rgba(94,241,255,0.3), transparent),
+    radial-gradient(1px 1px at 340px 40px, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 380px 90px, rgba(255,124,194,0.2), transparent);
+  background-size: 400px 100px;
+  animation: starScroll 90s linear infinite reverse;
+  opacity: 0.6;
+}
+
+@keyframes starScroll {
+  from { transform: translateY(0); }
+  to   { transform: translateY(50%); }
+}
+
+/* Glow pulse for neon elements */
+@keyframes glowPulse {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(94,241,255,0.4)); }
+  50%      { filter: drop-shadow(0 0 16px rgba(94,241,255,0.7)); }
+}
+
+.glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Gradient text helper */
+.text-gradient {
+  background: linear-gradient(135deg, #5ef1ff 0%, #ff7cc2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Shimmer loading animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.03) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 0.5rem;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
